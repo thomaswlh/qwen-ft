@@ -1,0 +1,9 @@
+checkpoints/
+logs/
+output/
+models/
+data/
+config
+__pycache__/
+*.pyc
+.hydra/
