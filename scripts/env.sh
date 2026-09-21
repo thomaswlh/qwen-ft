@@ -2,9 +2,8 @@
 # Shared environment for qwen-ft scripts.
 # Usage: source scripts/env.sh   (from any cwd)
 #
-# Activate: lxhu_conda (= this miniconda) + qwen-ft.
-# If qwen-ft's torch+cu130 cannot talk to driver 12.9, or megatron.bridge
-# cannot import, fall back to the already-verified zymo/verl_env.
+# Activate: lxhu_conda (= this miniconda) + qwen-ft (torch 2.10.0+cu128).
+# If CUDA init or megatron.bridge import fails, fall back to zymo/verl_env.
 
 if [[ -n "${_QWEN_FT_ENV_LOADED:-}" ]]; then
     return 0 2>/dev/null || true
@@ -72,7 +71,7 @@ _pick_python() {
         echo "${qwen_py}"
         return
     fi
-    echo "[env] qwen-ft cannot init CUDA (torch cu130 vs driver 12.9) or import megatron.bridge; falling back to ${ZYMO_PY}" >&2
+    echo "[env] qwen-ft cannot init CUDA or import megatron.bridge; falling back to ${ZYMO_PY}" >&2
     echo "${ZYMO_PY}"
 }
 

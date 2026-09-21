@@ -9,17 +9,35 @@ Qwen2.5-0.5B-Instruct 在 GSM8K 上的两阶段练手项目：
 
 ## 环境
 
-完整安装、版本表和自检见 **[docs/环境安装.md](docs/环境安装.md)**。
+训练用自己的 conda env：`/home/jpzhao_team/lxhu/miniconda3/envs/qwen-ft`。完整安装步骤见 **[docs/环境安装.md](docs/环境安装.md)**。
 
 ```bash
-# 共享账号先激活本目录 conda，再进 qwen-ft
 source /home/jpzhao_team/lxhu/miniconda3/bin/activate   # 即 lxhu_conda
 conda activate qwen-ft
+cd /home/jpzhao_team/lxhu/workspace/qwen-ft
+source scripts/env.sh
+"$PYTHON" scripts/check_env.py
 ```
 
-脚本会自己 `source scripts/env.sh`。本机驱动是 CUDA 12.9，而 `qwen-ft` 里的 torch 是 `2.11.0+cu130`，无法初始化 GPU；`megatron.bridge` 也因 `megatron-core==0.12.3` 缺 FSDP 模块导不进。`env.sh` 检测到后会回退到已跑通的 `/home/jpzhao_team/zymo/verl_env`。可用 `VERL_PYTHON=...` 强制指定解释器。
+`env.sh` 会把 `PYTHON` 指到 `qwen-ft`。只有 CUDA 或 `megatron.bridge` 自检失败时才回退到 `/home/jpzhao_team/zymo/verl_env`。强制指定：`VERL_PYTHON=/path/to/python`。
 
-复现训练环境请对齐那套：**torch 2.10.0+cu128 + vllm 0.19.1 + megatron-core 0.18.2 + megatron-bridge 0.5.1 + verl 0.9.0**，不要装 cu130。
+当前已自检通过的版本（2026-09-22 重装）：
+
+| 包 | 版本 |
+|---|---|
+| Python | 3.12.14 |
+| torch | 2.10.0+cu128 |
+| vllm | 0.19.1 |
+| megatron-core | 0.18.2 |
+| megatron-bridge | 0.5.1 |
+| verl | 0.9.0 |
+| ray | 2.58.0 |
+| transformers | 5.8.1 |
+| peft | 0.20.0 |
+| datasets | 5.0.1 |
+| TransferQueue | 0.1.10 |
+
+本机驱动是 CUDA 12.9，必须用 **cu128** 的 torch，不要装 cu130。`flash_attn` / Transformer Engine 没装，默认 `attention_backend=unfused`。
 
 默认 `CUDA_VISIBLE_DEVICES=2`（共享机上通常更空）。改卡：
 
