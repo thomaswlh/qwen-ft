@@ -37,7 +37,7 @@ source scripts/env.sh
 | datasets | 5.0.1 |
 | TransferQueue | 0.1.10 |
 
-本机驱动是 CUDA 12.9，必须用 **cu128** 的 torch，不要装 cu130。`flash_attn` / Transformer Engine 没装，默认 `attention_backend=unfused`。
+本机驱动是 CUDA 12.9，必须用 **cu128** 的 torch，不要装 cu130。`transformers` 锁 **5.8.1**。`flash_attn` / Transformer Engine 没装，默认 `attention_backend=unfused`；`megatron-bridge` 需要打无 TE 补丁，见安装文档。
 
 默认 `CUDA_VISIBLE_DEVICES=2`（共享机上通常更空）。改卡：
 

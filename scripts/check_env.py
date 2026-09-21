@@ -16,6 +16,7 @@ PACKAGES = [
     "peft",
     "datasets",
     "transformers",
+    "transfer_queue",
     "flash_attn",
     "transformer_engine",
 ]
